@@ -1,0 +1,19 @@
+[package]
+name = "fast-version"
+version = "0.1.0"
+edition = "2021"
+
+
+[[bench]]
+name = "compare_bench"
+harness = false
+
+[dependencies]
+cfg-if = "1.0.0"
+
+[dev-dependencies]
+rand = "0.8.5"
+criterion = { version = "0.3", features = ["html_reports"] }
+
+[build-dependencies]
+rustc_version = "0.4.0"

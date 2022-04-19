@@ -1,0 +1,2 @@
+[workspace]
+members = ["varanus-core", "fast-version"]
