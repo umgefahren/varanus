@@ -197,7 +197,7 @@ pub fn serial_compare<N: VersionNumber>(major: N, minor: N, patch: N) -> bool {
 fn fast_compare<N: VersionNumber>(major: N, minor: N, patch: N) -> bool {
     cfg_if::cfg_if! {
         if #[cfg(nightly)] {
-            return crate::simd::fast_compare_simd(major, minor, patch);
+            crate::simd::fast_compare_simd(major, minor, patch)
         } else {
             return serial_compare(major,minor,patch);
         }

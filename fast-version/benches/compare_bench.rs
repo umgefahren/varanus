@@ -75,176 +75,176 @@ fn perform_req_simd<N: VersionNumber + SampleUniform>() {
 
 fn criterion_benchmark(c: &mut Criterion) {
     let mut u8_group = c.benchmark_group("Compare u8");
-    u8_group.bench_function("non-simd", |b| b.iter(|| perform_compare_serial::<u8>()));
+    u8_group.bench_function("non-simd", |b| b.iter(perform_compare_serial::<u8>));
 
     #[cfg(nightly)]
-    u8_group.bench_function("simd", |b| b.iter(|| perform_compare_simd::<u8>()));
+    u8_group.bench_function("simd", |b| b.iter(perform_compare_simd::<u8>));
 
     u8_group.finish();
 
     let mut u16_group = c.benchmark_group("Compare u16");
-    u16_group.bench_function("non-simd", |b| b.iter(|| perform_compare_serial::<u16>()));
+    u16_group.bench_function("non-simd", |b| b.iter(perform_compare_serial::<u16>));
 
     #[cfg(nightly)]
-    u16_group.bench_function("simd", |b| b.iter(|| perform_compare_simd::<u16>()));
+    u16_group.bench_function("simd", |b| b.iter(perform_compare_simd::<u16>));
 
     u16_group.finish();
 
 
     let mut u32_group = c.benchmark_group("Compare u32");
-    u32_group.bench_function("non-simd", |b| b.iter(|| perform_compare_serial::<u32>()));
+    u32_group.bench_function("non-simd", |b| b.iter(perform_compare_serial::<u32>));
 
     #[cfg(nightly)]
-    u32_group.bench_function("simd", |b| b.iter(|| perform_compare_simd::<u32>()));
+    u32_group.bench_function("simd", |b| b.iter(perform_compare_simd::<u32>));
 
     u32_group.finish();
 
 
     let mut u64_group = c.benchmark_group("Compare u64");
-    u64_group.bench_function("non-simd", |b| b.iter(|| perform_compare_serial::<u64>()));
+    u64_group.bench_function("non-simd", |b| b.iter(perform_compare_serial::<u64>));
 
     #[cfg(nightly)]
-    u64_group.bench_function("simd", |b| b.iter(|| perform_compare_simd::<u64>()));
+    u64_group.bench_function("simd", |b| b.iter(perform_compare_simd::<u64>));
 
     u64_group.finish();
 
 
     let mut usize_group = c.benchmark_group("Compare usize");
-    usize_group.bench_function("non-simd", |b| b.iter(|| perform_compare_serial::<usize>()));
+    usize_group.bench_function("non-simd", |b| b.iter(perform_compare_serial::<usize>));
 
     #[cfg(nightly)]
-    usize_group.bench_function("simd", |b| b.iter(|| perform_compare_simd::<usize>()));
+    usize_group.bench_function("simd", |b| b.iter(perform_compare_simd::<usize>));
 
     usize_group.finish();
 
     let mut i8_group = c.benchmark_group("Compare i8");
-    i8_group.bench_function("non-simd", |b| b.iter(|| perform_compare_serial::<i8>()));
+    i8_group.bench_function("non-simd", |b| b.iter(perform_compare_serial::<i8>));
 
     #[cfg(nightly)]
-    i8_group.bench_function("simd", |b| b.iter(|| perform_compare_simd::<i8>()));
+    i8_group.bench_function("simd", |b| b.iter(perform_compare_simd::<i8>));
 
     i8_group.finish();
 
     let mut i16_group = c.benchmark_group("Compare i16");
-    i16_group.bench_function("non-simd", |b| b.iter(|| perform_compare_serial::<i16>()));
+    i16_group.bench_function("non-simd", |b| b.iter(perform_compare_serial::<i16>));
 
     #[cfg(nightly)]
-    i16_group.bench_function("simd", |b| b.iter(|| perform_compare_simd::<i16>()));
+    i16_group.bench_function("simd", |b| b.iter(perform_compare_simd::<i16>));
 
     i16_group.finish();
 
 
     let mut i32_group = c.benchmark_group("Compare i32");
-    i32_group.bench_function("non-simd", |b| b.iter(|| perform_compare_serial::<i32>()));
+    i32_group.bench_function("non-simd", |b| b.iter(perform_compare_serial::<i32>));
 
     #[cfg(nightly)]
-    i32_group.bench_function("simd", |b| b.iter(|| perform_compare_simd::<i32>()));
+    i32_group.bench_function("simd", |b| b.iter(perform_compare_simd::<i32>));
 
     i32_group.finish();
 
 
     let mut i64_group = c.benchmark_group("Compare i64");
-    i64_group.bench_function("non-simd", |b| b.iter(|| perform_compare_serial::<i64>()));
+    i64_group.bench_function("non-simd", |b| b.iter(perform_compare_serial::<i64>));
 
     #[cfg(nightly)]
-    i64_group.bench_function("simd", |b| b.iter(|| perform_compare_simd::<i64>()));
+    i64_group.bench_function("simd", |b| b.iter(perform_compare_simd::<i64>));
 
     i64_group.finish();
 
 
     let mut isize_group = c.benchmark_group("Compare isize");
-    isize_group.bench_function("non-simd", |b| b.iter(|| perform_compare_serial::<isize>()));
+    isize_group.bench_function("non-simd", |b| b.iter(perform_compare_serial::<isize>));
 
     #[cfg(nightly)]
-    isize_group.bench_function("simd", |b| b.iter(|| perform_compare_simd::<isize>()));
+    isize_group.bench_function("simd", |b| b.iter(perform_compare_simd::<isize>));
 
     isize_group.finish();
 }
 
 fn version_req_benchmark(c: &mut Criterion) {
     let mut u8_group = c.benchmark_group("VersionReq u8");
-    u8_group.bench_function("non-simd", |b| b.iter(|| perform_req_serial::<u8>()));
+    u8_group.bench_function("non-simd", |b| b.iter(perform_req_serial::<u8>));
 
     #[cfg(nightly)]
-    u8_group.bench_function("simd", |b| b.iter(|| perform_req_simd::<u8>()));
+    u8_group.bench_function("simd", |b| b.iter(perform_req_simd::<u8>));
     
     u8_group.finish();
 
     let mut u16_group = c.benchmark_group("VersionReq u16");
-    u16_group.bench_function("non-simd", |b| b.iter(|| perform_req_serial::<u16>()));
+    u16_group.bench_function("non-simd", |b| b.iter(perform_req_serial::<u16>));
 
     #[cfg(nightly)]
-    u16_group.bench_function("simd", |b| b.iter(|| perform_req_simd::<u16>()));
+    u16_group.bench_function("simd", |b| b.iter(perform_req_simd::<u16>));
 
     u16_group.finish();
 
 
     let mut u32_group = c.benchmark_group("VersionReq u32");
-    u32_group.bench_function("non-simd", |b| b.iter(|| perform_req_serial::<u32>()));
+    u32_group.bench_function("non-simd", |b| b.iter(perform_req_serial::<u32>));
 
     #[cfg(nightly)]
-    u32_group.bench_function("simd", |b| b.iter(|| perform_req_simd::<u32>()));
+    u32_group.bench_function("simd", |b| b.iter(perform_req_simd::<u32>));
 
     u32_group.finish();
 
 
     let mut u64_group = c.benchmark_group("VersionReq u64");
-    u64_group.bench_function("non-simd", |b| b.iter(|| perform_req_serial::<u64>()));
+    u64_group.bench_function("non-simd", |b| b.iter(perform_req_serial::<u64>));
 
     #[cfg(nightly)]
-    u64_group.bench_function("simd", |b| b.iter(|| perform_req_simd::<u64>()));
+    u64_group.bench_function("simd", |b| b.iter(perform_req_simd::<u64>));
 
     u64_group.finish();
 
 
     let mut usize_group = c.benchmark_group("VersionReq usize");
-    usize_group.bench_function("non-simd", |b| b.iter(|| perform_req_serial::<usize>()));
+    usize_group.bench_function("non-simd", |b| b.iter(perform_req_serial::<usize>));
 
     #[cfg(nightly)]
-    usize_group.bench_function("simd", |b| b.iter(|| perform_req_simd::<usize>()));
+    usize_group.bench_function("simd", |b| b.iter(perform_req_simd::<usize>));
 
     usize_group.finish();
 
     let mut i8_group = c.benchmark_group("VersionReq i8");
-    i8_group.bench_function("non-simd", |b| b.iter(|| perform_req_serial::<i8>()));
+    i8_group.bench_function("non-simd", |b| b.iter(perform_req_serial::<i8>));
 
     #[cfg(nightly)]
-    i8_group.bench_function("simd", |b| b.iter(|| perform_req_simd::<i8>()));
+    i8_group.bench_function("simd", |b| b.iter(perform_req_simd::<i8>));
 
     i8_group.finish();
 
     let mut i16_group = c.benchmark_group("VersionReq i16");
-    i16_group.bench_function("non-simd", |b| b.iter(|| perform_req_serial::<i16>()));
+    i16_group.bench_function("non-simd", |b| b.iter(perform_req_serial::<i16>));
 
     #[cfg(nightly)]
-    i16_group.bench_function("simd", |b| b.iter(|| perform_req_simd::<i16>()));
+    i16_group.bench_function("simd", |b| b.iter(perform_req_simd::<i16>));
 
     i16_group.finish();
 
 
     let mut i32_group = c.benchmark_group("VersionReq i32");
-    i32_group.bench_function("non-simd", |b| b.iter(|| perform_req_serial::<i32>()));
+    i32_group.bench_function("non-simd", |b| b.iter(perform_req_serial::<i32>));
 
     #[cfg(nightly)]
-    i32_group.bench_function("simd", |b| b.iter(|| perform_req_simd::<i32>()));
+    i32_group.bench_function("simd", |b| b.iter(perform_req_simd::<i32>));
 
     i32_group.finish();
 
 
     let mut i64_group = c.benchmark_group("VersionReq i64");
-    i64_group.bench_function("non-simd", |b| b.iter(|| perform_req_serial::<i64>()));
+    i64_group.bench_function("non-simd", |b| b.iter(perform_req_serial::<i64>));
 
     #[cfg(nightly)]
-    i64_group.bench_function("simd", |b| b.iter(|| perform_req_simd::<i64>()));
+    i64_group.bench_function("simd", |b| b.iter(perform_req_simd::<i64>));
 
     i64_group.finish();
 
 
     let mut isize_group = c.benchmark_group("Compare isize");
-    isize_group.bench_function("non-simd", |b| b.iter(|| perform_req_serial::<isize>()));
+    isize_group.bench_function("non-simd", |b| b.iter(perform_req_serial::<isize>));
 
     #[cfg(nightly)]
-    isize_group.bench_function("simd", |b| b.iter(|| perform_req_simd::<isize>()));
+    isize_group.bench_function("simd", |b| b.iter(perform_req_simd::<isize>));
 
     isize_group.finish();
 }

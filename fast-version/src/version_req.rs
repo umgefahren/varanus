@@ -188,43 +188,43 @@ impl<N: VersionNumber> VersionReq<N> {
     fn apply_reg_type(&mut self, reg_type: VersionRegType<N>) -> Result<(), VersionRegError> {
         match reg_type {
             VersionRegType::Strict(version) => {
-                return self.apply_strict(version);
+                self.apply_strict(version)
             },
             VersionRegType::GreaterMajor { major } => {
-                return self.apply_greater_major(major);
+                self.apply_greater_major(major)
             },
             VersionRegType::GreaterMinor { major, minor } => {
-                return self.apply_greater_minor(major, minor);
+                self.apply_greater_minor(major, minor)
             },
             VersionRegType::GreaterPatch { major, minor, patch } => {
-                return self.apply_greater_patch(major, minor, patch);
+                self.apply_greater_patch(major, minor, patch)
             },
             VersionRegType::GreaterEqMajor { major } => {
-                return self.apply_greater_eq_major(major);
+                self.apply_greater_eq_major(major)
             },
             VersionRegType::GreaterEqMinor { major, minor } => {
-                return self.apply_greater_eq_minor(major, minor);
+                self.apply_greater_eq_minor(major, minor)
             },
             VersionRegType::GreaterEqPatch { major, minor, patch } => {
-                return self.apply_greater_eq_patch(major, minor, patch);
+                self.apply_greater_eq_patch(major, minor, patch)
             },
             VersionRegType::LesserMajor { major } => {
-                return self.apply_lesser_major(major);
+                self.apply_lesser_major(major)
             },
             VersionRegType::LesserMinor { major, minor } => {
-                return self.apply_lesser_minor(major, minor);
+                self.apply_lesser_minor(major, minor)
             },
             VersionRegType::LesserPatch { major, minor, patch } => {
-                return self.apply_lesser_patch(major, minor, patch);
+                self.apply_lesser_patch(major, minor, patch)
             },
             VersionRegType::LesserEqMajor { major } => {
-                return self.apply_lesser_eq_major(major);
+                self.apply_lesser_eq_major(major)
             },
             VersionRegType::LesserEqMinor { major, minor } => {
-                return self.apply_lesser_eq_minor(major, minor);
+                self.apply_lesser_eq_minor(major, minor)
             },
             VersionRegType::LesserEqPatch { major, minor, patch } => {
-                return self.apply_lesser_eq_patch(major, minor, patch);
+                self.apply_lesser_eq_patch(major, minor, patch)
             },
         }
 
