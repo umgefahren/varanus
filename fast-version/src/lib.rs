@@ -6,6 +6,8 @@
 #![cfg_attr(nightly, feature(repr_simd))]
 #![cfg_attr(nightly, feature(portable_simd))]
 
+extern crate alloc;
+
 
 pub mod version;
 pub mod version_req;

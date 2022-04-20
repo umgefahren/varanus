@@ -1,2 +1,5 @@
 [workspace]
 members = ["varanus-core", "fast-version"]
+
+[profile.release]
+lto = true

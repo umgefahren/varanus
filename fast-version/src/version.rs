@@ -1,10 +1,12 @@
-use core::ops::{Shl, ShlAssign, Shr, ShrAssign};
+use core::ops::{Shl, ShlAssign, Shr, ShrAssign, Add, Sub};
+use alloc::string::ToString;
 
 use crate::simd::PortableSimdElement;
 
-pub trait VersionNumber: PartialOrd + PortableSimdElement + Shl + Shr + ShlAssign + ShrAssign + Copy + Sized {
+pub trait VersionNumber: PartialOrd + PortableSimdElement + Add<Output = Self> + Sub<Output = Self> + Shl + Shr + ShlAssign + ShrAssign + ToString + Copy + Sized {
     fn max() -> Self;
     fn min() -> Self;
+    fn one() -> Self;
 }
 
 impl VersionNumber for u8 {
@@ -19,6 +21,10 @@ impl VersionNumber for u8 {
        u8::MAX
    }
 
+   #[inline]
+   fn one() -> Self {
+       1_u8
+   }
 }
 
 impl VersionNumber for u16 {
@@ -31,6 +37,11 @@ impl VersionNumber for u16 {
     #[inline]
     fn min() -> Self {
         u16::MIN
+    }
+
+    #[inline]
+    fn one() -> Self {
+        1_u16
     }
 }
 
@@ -45,6 +56,11 @@ impl VersionNumber for u32 {
     fn min() -> Self {
         u32::MIN
     }
+
+    #[inline]
+    fn one() -> Self {
+        1_u32
+    }
 }
 
 impl VersionNumber for u64 {
@@ -57,6 +73,11 @@ impl VersionNumber for u64 {
     #[inline]
     fn min() -> Self {
         u64::MIN
+    }
+
+    #[inline]
+    fn one() -> Self {
+        1_u64
     }
 }
 
@@ -71,6 +92,10 @@ impl VersionNumber for usize {
     fn min() -> Self {
         usize::MIN
     }
+
+    fn one() -> Self {
+        1_usize
+    }
 }
 
 impl VersionNumber for i8 {
@@ -83,6 +108,11 @@ impl VersionNumber for i8 {
     #[inline]
     fn min() -> Self {
         i8::MIN
+    }
+
+    #[inline]
+    fn one() -> Self {
+        1_i8
     }
 }
 
@@ -97,6 +127,11 @@ impl VersionNumber for i16 {
     fn min() -> Self {
         i16::MIN
     }
+
+    #[inline]
+    fn one() -> Self {
+        1_i16
+    }
 }
 
 impl VersionNumber for i32 {
@@ -109,6 +144,11 @@ impl VersionNumber for i32 {
     #[inline]
     fn min() -> Self {
         i32::MIN
+    }
+
+    #[inline]
+    fn one() -> Self {
+        1_i32
     }
 }
 
@@ -123,6 +163,11 @@ impl VersionNumber for i64 {
     fn min() -> Self {
         i64::MIN
     }
+
+    #[inline]
+    fn one() -> Self {
+        1_i64
+    }
 }
 
 impl VersionNumber for isize {
@@ -134,6 +179,11 @@ impl VersionNumber for isize {
     #[inline]
     fn min() -> Self {
         isize::MIN
+    }
+
+    #[inline]
+    fn one() -> Self {
+        1_isize
     }
 }
 
@@ -165,8 +215,7 @@ pub enum NewVersionError {
 }
 
 
-#[derive(Debug)]
-#[cfg_attr(nightly, repr(simd))]
+#[derive(Debug, Clone, Copy)]
 pub struct Version<N: VersionNumber> {
     pub major: N,
     pub minor: N,

@@ -1,3 +1,6 @@
+#[cfg(nightly)]
+use core::ops::BitAnd;
+
 
 cfg_if::cfg_if! {
     if #[cfg(nightly)] {
@@ -34,14 +37,42 @@ impl PortableSimdElement for isize {}
 pub fn fast_compare_simd<N: VersionNumber>(major: N, minor: N, patch: N) -> bool {
     let max = N::max();
     let min = N::min();
-    let arr = [ max, max, max, max, min, min, min, min ];
-    let simd_arr = [ major, minor, patch, min, major, minor, patch, max ];
-    
-    let limit_simd = core::simd::Simd::from_array(arr);
+    let one = N::one();
+    let max_arr = [ max, max, max, max ];
+    let min_arr = [ min, min, min, min ];
+    let simd_arr = [ major, minor, patch, max - one];
+
+
+    let max_simd = core::simd::Simd::from_array(max_arr);
+    let min_simd = core::simd::Simd::from_array(min_arr);
     let version_simd = core::simd::Simd::from_array(simd_arr);
 
-    let mask_res = limit_simd.lanes_ne(version_simd);
-    mask_res.all()
+    let max_mask = version_simd.lanes_ne(max_simd);
+    let min_mask = version_simd.lanes_ne(min_simd);
+
+    let and_mask = max_mask.bitand(min_mask);
+
+    and_mask.all()
+}
+
+#[cfg(nightly)]
+#[inline]
+pub fn simd_version_req<N: VersionNumber>(ver: [N; 3], lower: [N; 3], upper: [N; 3]) -> bool {
+    let one = N::one();
+    let ver_arr = [ ver[0], ver[1], ver[2], one ];
+    let lower_arr = [ lower[0], lower[1], lower[2], one ];
+    let upper_arr = [ upper[0], upper[1], upper[2], one ];
+
+    let ver_simd = core::simd::Simd::from_array(ver_arr);
+    let lower_simd = core::simd::Simd::from_array(lower_arr);
+    let upper_simd = core::simd::Simd::from_array(upper_arr);
+
+    let ge_mask = ver_simd.lanes_ge(lower_simd);
+    let le_mask = ver_simd.lanes_le(upper_simd);
+
+    let and_mask = ge_mask.bitand(le_mask);
+
+    and_mask.all()
 }
 
 #[cfg(test)]
