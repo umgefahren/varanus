@@ -149,14 +149,14 @@ impl Default for VersionComperatorUpper {
 }
 
 pub struct VersionReq<N: VersionNumber> {
-    comperator_lower: VersionComperatorLower,
-    comperator_higher: VersionComperatorUpper,
-    major_lower: N,
-    minor_lower: N,
-    patch_lower: N,
-    major_upper: N,
-    minor_upper: N,
-    patch_upper: N
+    pub(crate) comperator_lower: VersionComperatorLower,
+    pub(crate) comperator_higher: VersionComperatorUpper,
+    pub(crate) major_lower: N,
+    pub(crate) minor_lower: N,
+    pub(crate) patch_lower: N,
+    pub(crate) major_upper: N,
+    pub(crate) minor_upper: N,
+    pub(crate) patch_upper: N
 }
 
 fn validate_num<N: VersionNumber>(input: N) -> Result<(), VersionRegError> {

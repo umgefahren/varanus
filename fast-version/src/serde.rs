@@ -51,13 +51,15 @@ impl From<Version<u64>> for VersionSerde {
 }
 
 #[cfg(feature = "serde")]
-impl From<VersionSerde> for Version<u64> {
-    fn from(v: VersionSerde) -> Self {
-        Self {
-            major: v.major,
-            minor: v.minor,
-            patch: v.patch
-        }
+impl TryFrom<VersionSerde> for Version<u64> {
+    type Error = VersionSerdeError;
+
+    fn try_from(value: VersionSerde) -> Result<Self, Self::Error> {
+        let major = value.major;
+        let minor = value.minor;
+        let patch = value.patch;
+
+        Version::try_new(major, minor, patch).ok_or(VersionSerdeError::VersionInvalid)
     }
 }
 
@@ -78,7 +80,8 @@ impl From<Version<u32>> for VersionSerde {
 
 #[cfg(feature = "serde")]
 pub enum VersionSerdeError {
-    NumberToBig
+    NumberToBig,
+    VersionInvalid
 }
 
 #[cfg(feature = "serde")]
@@ -101,7 +104,7 @@ impl TryFrom<VersionSerde> for Version<u32> {
         let minor = convert_to_u32(value.minor)?;
         let patch = convert_to_u32(value.patch)?;
 
-        Ok(Self { major, minor, patch })
+        Version::try_new(major, minor, patch).ok_or(VersionSerdeError::VersionInvalid)
     }
 }
 
@@ -138,7 +141,7 @@ impl TryFrom<VersionSerde> for Version<usize> {
         let minor = convert_to_usize(value.minor)?;
         let patch = convert_to_usize(value.patch)?;
 
-        Ok(Self { major, minor, patch })
+        Version::try_new(major, minor, patch).ok_or(VersionSerdeError::VersionInvalid)
     }
 }
 
