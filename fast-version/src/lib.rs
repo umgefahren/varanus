@@ -14,5 +14,8 @@ pub mod version_req;
 
 pub mod simd;
 
+pub mod serde;
+
 pub use version::Version;
+pub use version_req::VersionReq;
 

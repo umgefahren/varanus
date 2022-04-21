@@ -1,9 +1,10 @@
 use core::ops::{Shl, ShlAssign, Shr, ShrAssign, Add, Sub};
 use alloc::string::ToString;
 
-use crate::simd::PortableSimdElement;
 
-pub trait VersionNumber: PartialOrd + PortableSimdElement + Add<Output = Self> + Sub<Output = Self> + Shl + Shr + ShlAssign + ShrAssign + ToString + Copy + Sized {
+use crate::{simd::PortableSimdElement, serde::SerdeNumber};
+
+pub trait VersionNumber: PartialOrd + PortableSimdElement + Add<Output = Self> + Sub<Output = Self> + Shl + Shr + ShlAssign + ShrAssign + SerdeNumber + ToString + Copy + Sized {
     fn max() -> Self;
     fn min() -> Self;
     fn one() -> Self;
