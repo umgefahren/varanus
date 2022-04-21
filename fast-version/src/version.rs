@@ -215,7 +215,6 @@ pub enum NewVersionError {
     PatchIsMin
 }
 
-
 #[derive(Debug, Clone, Copy)]
 pub struct Version<N: VersionNumber> {
     pub major: N,

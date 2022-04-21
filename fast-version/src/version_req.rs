@@ -113,7 +113,8 @@ pub enum VersionRegCompType<N: VersionNumber> {
     }
 }
 
-enum VersionComperatorLower {
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub(crate) enum VersionComperatorLower {
     Strict,
     GreaterMajor,
     GreaterMinor,
@@ -130,7 +131,8 @@ impl Default for VersionComperatorLower {
     }
 }
 
-enum VersionComperatorUpper {
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub(crate) enum VersionComperatorUpper {
     LesserMajor,
     LesserMinor,
     LesserPatch,
