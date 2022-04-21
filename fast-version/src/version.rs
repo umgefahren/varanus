@@ -4,7 +4,7 @@ use alloc::string::ToString;
 
 use crate::{simd::PortableSimdElement, serde::SerdeNumber};
 
-pub trait VersionNumber: PartialOrd + PortableSimdElement + Add<Output = Self> + Sub<Output = Self> + Shl + Shr + ShlAssign + ShrAssign + SerdeNumber + ToString + Copy + Sized {
+pub trait VersionNumber: PartialOrd + PortableSimdElement + core::hash::Hash + Add<Output = Self> + Sub<Output = Self> + Shl + Shr + ShlAssign + ShrAssign + SerdeNumber + ToString + Copy + Sized {
     fn max() -> Self;
     fn min() -> Self;
     fn one() -> Self;
@@ -257,6 +257,62 @@ impl<N: VersionNumber> Version<N> {
     }
 }
 
+impl Version<u32> {
+    pub const fn const_try_new(major: u32, minor: u32, patch: u32) -> Result<Self, NewVersionError> {
+        const MAX: u32 = u32::MAX;
+        const MIN: u32 = u32::MIN;
+
+        if major == MAX {
+            return Err(NewVersionError::MajorIsMax);
+        } else if major == MIN {
+            return Err(NewVersionError::MajorIsMin);
+        }
+
+        if minor == MAX {
+            return Err(NewVersionError::MinorIsMax);
+        } else if minor == MIN {
+            return Err(NewVersionError::MinorIsMin);
+        }
+
+        if patch == MAX {
+            return Err(NewVersionError::PatchIsMax);
+        } else if patch == MIN {
+            return Err(NewVersionError::PatchIsMin);
+        }
+
+        let ret = Version { major, minor, patch };
+        Ok(ret)
+    }
+}
+
+impl Version<u64> {
+    pub const fn const_try_new(major: u64, minor: u64, patch: u64) -> Result<Self, NewVersionError> {
+        const MAX: u64 = u64::MAX;
+        const MIN: u64 = u64::MIN;
+
+        if major == MAX {
+            return Err(NewVersionError::MajorIsMax);
+        } else if major == MIN {
+            return Err(NewVersionError::MajorIsMin);
+        }
+
+        if minor == MAX {
+            return Err(NewVersionError::MinorIsMax);
+        } else if minor == MIN {
+            return Err(NewVersionError::MinorIsMin);
+        }
+
+        if patch == MAX {
+            return Err(NewVersionError::PatchIsMax);
+        } else if patch == MIN {
+            return Err(NewVersionError::PatchIsMax);
+        }
+
+        let ret = Version { major, minor, patch };
+        Ok(ret)
+    }
+}
+
 impl<N: VersionNumber> PartialEq for Version<N> {
     fn eq(&self, other: &Self) -> bool {
         self.major == other.major && self.minor == other.minor && self.patch == other.patch
@@ -275,5 +331,16 @@ impl<N: VersionNumber> PartialOrd for Version<N> {
             return Some(ordering);
         }
         Some(self.patch.partial_cmp(&other.patch).unwrap())
+    }
+}
+
+impl<N: VersionNumber> core::hash::Hash for Version<N> {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        let major = self.major;
+        major.hash(state);
+        let minor = self.minor;
+        minor.hash(state);
+        let patch = self.patch;
+        patch.hash(state);
     }
 }

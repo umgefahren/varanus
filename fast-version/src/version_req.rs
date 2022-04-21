@@ -114,6 +114,7 @@ pub enum VersionRegCompType<N: VersionNumber> {
 }
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[derive(core::hash::Hash, Debug)]
 pub(crate) enum VersionComperatorLower {
     Strict,
     GreaterMajor,
@@ -132,6 +133,7 @@ impl Default for VersionComperatorLower {
 }
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[derive(core::hash::Hash, Debug)]
 pub(crate) enum VersionComperatorUpper {
     LesserMajor,
     LesserMinor,
@@ -148,6 +150,7 @@ impl Default for VersionComperatorUpper {
     }
 }
 
+#[derive(Debug)]
 pub struct VersionReq<N: VersionNumber> {
     pub(crate) comperator_lower: VersionComperatorLower,
     pub(crate) comperator_higher: VersionComperatorUpper,
@@ -467,5 +470,28 @@ impl<N: VersionNumber> TryFrom<VersionRegCompType<N>> for VersionReq<N> {
         }
 
         Ok(ret)
+    }
+}
+
+impl<N: VersionNumber> core::hash::Hash for VersionReq<N> {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        let major_lower = self.major_lower;
+        let minor_lower = self.minor_lower;
+        let patch_lower = self.patch_lower;
+
+        major_lower.hash(state);
+        minor_lower.hash(state);
+        patch_lower.hash(state);
+
+        let major_upper = self.major_upper;
+        let minor_upper = self.minor_upper;
+        let patch_upper = self.patch_upper;
+
+        major_upper.hash(state);
+        minor_upper.hash(state);
+        patch_upper.hash(state);
+
+        self.comperator_lower.hash(state);
+        self.comperator_higher.hash(state);
     }
 }

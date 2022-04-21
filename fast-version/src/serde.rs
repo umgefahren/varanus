@@ -4,6 +4,8 @@ use serde::{Serialize, de::DeserializeOwned};
 #[cfg(feature = "serde")]
 use crate::{Version, VersionReq, version_req::{VersionComperatorUpper, VersionComperatorLower}};
 
+#[cfg(feature = "serde")]
+use thiserror::Error;
 
 #[cfg(feature = "serde")]
 pub trait SerdeNumber: Serialize + DeserializeOwned {}
@@ -79,8 +81,11 @@ impl From<Version<u32>> for VersionSerde {
 }
 
 #[cfg(feature = "serde")]
+#[derive(Debug, Error)]
 pub enum VersionSerdeError {
+    #[error("The number is to big for conversion")]
     NumberToBig,
+    #[error("The version is invalid")]
     VersionInvalid
 }
 

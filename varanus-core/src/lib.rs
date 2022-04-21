@@ -1,4 +1,6 @@
 pub mod transport;
+pub mod protocol;
+pub mod node;
 
 #[cfg(test)]
 mod tests {
