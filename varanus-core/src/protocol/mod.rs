@@ -1,16 +1,16 @@
-use std::sync::Arc;
-
-use fast_version::{Version, VersionReq};
+use std::any::Any;
+pub use fast_version::{Version, VersionReq};
 
 use self::{name::ProtocolName, identifier::ProtocolIdentifier};
 
 
 pub mod name;
 pub mod identifier;
+pub mod request;
 
-type DefaultVersionNumber = u64;
+pub type DefaultVersionNumber = u64;
 
-pub trait GenericProtocol: Clone + Send + Sync {
+pub trait GenericProtocol: Any + Send + Sync {
     fn version() -> Version<DefaultVersionNumber>;
     fn version_req() -> VersionReq<DefaultVersionNumber>;
     fn name() -> ProtocolName;
@@ -45,9 +45,4 @@ impl<T: GenericProtocol> InternalGenericProtocol for T {
     fn version_identifier(&self) -> ProtocolIdentifier {
         T::version_identifier()
     }
-}
-
-pub(crate) fn generate_dyn_generic_protocol<T: 'static + GenericProtocol>(input: &T) -> Arc<dyn InternalGenericProtocol> {
-    let cloned_input = input.clone();
-    Arc::new(cloned_input)
 }

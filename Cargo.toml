@@ -1,5 +1,5 @@
 [workspace]
-members = ["varanus-core", "fast-version"]
+members = ["varanus-core", "fast-version", "protocols/varanus-pingpong"]
 
 [profile.release]
 lto = true

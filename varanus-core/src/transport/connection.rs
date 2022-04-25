@@ -1,8 +1,9 @@
+use std::any::Any;
 use super::address::{GenericAddress, InternalGenericAddress};
 use tokio::io::{AsyncRead, AsyncWrite};
 
 
-pub trait TransportConnection: AsyncWrite + AsyncRead + Unpin {
+pub trait TransportConnection: AsyncWrite + AsyncRead + Any + Unpin {
     type TransportAddress: GenericAddress + 'static;
 
     fn local_address(&mut self) -> Option<Self::TransportAddress>;
@@ -10,7 +11,7 @@ pub trait TransportConnection: AsyncWrite + AsyncRead + Unpin {
 
 }
 
-pub(super) trait InternalTransportConnection: AsyncWrite + AsyncRead + Unpin {
+pub(crate) trait InternalTransportConnection: AsyncWrite + AsyncRead + Unpin {
     fn local_address(&mut self) -> Option<Box<dyn InternalGenericAddress>>;
     fn remote_address(&mut self) -> Option<Box<dyn InternalGenericAddress>>;
     

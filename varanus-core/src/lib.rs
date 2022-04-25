@@ -1,6 +1,8 @@
 pub mod transport;
 pub mod protocol;
 pub mod node;
+pub mod encryption;
+pub mod util;
 
 #[cfg(test)]
 mod tests {

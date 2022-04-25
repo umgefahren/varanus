@@ -114,7 +114,7 @@ pub enum VersionRegCompType<N: VersionNumber> {
 }
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(core::hash::Hash, Debug)]
+#[derive(core::hash::Hash, Debug, Copy, Clone)]
 pub(crate) enum VersionComperatorLower {
     Strict,
     GreaterMajor,
@@ -133,7 +133,7 @@ impl Default for VersionComperatorLower {
 }
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(core::hash::Hash, Debug)]
+#[derive(core::hash::Hash, Debug, Copy, Clone)]
 pub(crate) enum VersionComperatorUpper {
     LesserMajor,
     LesserMinor,
@@ -150,7 +150,7 @@ impl Default for VersionComperatorUpper {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub struct VersionReq<N: VersionNumber> {
     pub(crate) comperator_lower: VersionComperatorLower,
     pub(crate) comperator_higher: VersionComperatorUpper,
@@ -433,6 +433,7 @@ impl<N: VersionNumber> Default for VersionReq<N> {
     }
 }
 
+#[derive(Debug)]
 pub enum VersionRegError {
     StrictNotAllowedInComposite,
     LowerOnPlaceOfGreater,
